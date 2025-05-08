@@ -1,0 +1,78 @@
+
+// GET ALL PRODUCTS
+GET http://localhost:4011/productlist/
+
+
+###
+
+// GET ALL ON SALE PRODUCTS
+GET http://localhost:4011/sale
+
+###
+
+// SORT BY BY ASCENDING OR DESCENDING
+GET http://localhost:4011/productlist/desc
+
+###
+
+
+// FILTER BY FORMAT
+GET http://localhost:4011/productlist/format/cd
+
+###
+
+// ADD NEW PRODUCT
+POST http://localhost:4011/productlist
+Content-Type: application/json
+
+{
+    "Title": "BBAAABB",
+    "Image": "some link",
+    "Price": 22,
+    "Description": "New Desc",
+    "Format": "CD",
+    "Availability": 1,
+    "isOnline": 1,
+    "OnSale": 1
+
+}
+
+###
+
+// DELETE EXISTING PRODUCT
+DELETE http://localhost:4011/productlist/14
+
+
+###
+
+// MAKE PRODUCT OFFLINE / ONLINE
+PUT http://localhost:4011/productlist/3
+Content-Type: application/json
+
+{
+    "isOnline": 1
+}
+
+###
+
+
+// EDIT PRODUCT DETAILS
+PUT http://localhost:4011/productlist/edit/14
+Content-Type: application/json
+
+{
+    "Title": "A1LLLLAAA",
+    "Price": 22,
+    "Description": "New Desc",
+    "Format": "CD",
+    "Availability": 1,
+    "isOnline": 1,
+    "OnSale": 1
+}
+
+###
+
+// GET ALL AVAILABLE PRODUCTS
+GET http://localhost:4011/productlist/available
+Content-Type: application/json
+
