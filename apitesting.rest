@@ -1,6 +1,6 @@
 
 // GET ALL PRODUCTS
-GET http://localhost:4011/productlist/
+GET http://localhost:4011/productlist/2
 
 
 ###
@@ -11,13 +11,14 @@ GET http://localhost:4011/sale
 ###
 
 // SORT BY BY ASCENDING OR DESCENDING
-GET http://localhost:4011/productlist/desc
+GET http://localhost:4011/productlist/price/desc
 
 ###
 
 
 // FILTER BY FORMAT
-GET http://localhost:4011/productlist/format/cd
+GET http://localhost:4011/productlist/format/cassette
+
 
 ###
 
@@ -32,8 +33,9 @@ Content-Type: application/json
     "Description": "New Desc",
     "Format": "CD",
     "Availability": 1,
-    "isOnline": 1,
-    "OnSale": 1
+    "isOnline": 0,
+    "OnSale": 0,
+    "New": 0
 
 }
 
@@ -57,7 +59,7 @@ Content-Type: application/json
 
 
 // EDIT PRODUCT DETAILS
-PUT http://localhost:4011/productlist/edit/14
+PUT http://localhost:4011/productlist/edit/25
 Content-Type: application/json
 
 {
@@ -73,6 +75,23 @@ Content-Type: application/json
 ###
 
 // GET ALL AVAILABLE PRODUCTS
-GET http://localhost:4011/productlist/available
+GET http://localhost:4011/online
 Content-Type: application/json
 
+
+###
+// LOGIN
+
+POST http://localhost:4011/login
+Content-Type: application/json
+
+{
+    "Email": "admin@gmail.com",
+    "Password": "12345" 
+}
+
+// Have to set up the login POST command 
+
+###
+
+GET http://localhost:4011/new

@@ -1,17 +1,18 @@
 import express from "express";
 import mysql2 from "mysql2";
 import cors from "cors";
+import 'dotenv/config';
 
 const server = express();
 server.use(express.json());
 server.use(cors());
 const port = 4011;
 const db = mysql2.createPool({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "root",
-    database: "musicecommerce",
+    host: process.env.dbhost,
+    port: process.env.dbport,
+    user: process.env.dbuser,
+    password: process.env.dbpassword,
+    database: process.env.dbname,
     connectionLimit: 10
 })
 
@@ -51,7 +52,7 @@ server.get("/productlist", (req,res) => {
 
 // GET COMPLETE INFORMATION ABOUT INDIVIDUAL PRODUCT
 
-server.get("/productlist:gID", function(req,res){
+server.get("/productlist/:gID", function(req,res){
     var sqlQuery = "CALL `GetProductByID`(?)";
     var gID = req.params.gID;
 
@@ -61,7 +62,7 @@ server.get("/productlist:gID", function(req,res){
             res.json(error);
         }
         if(data){
-            res.json(data);
+            res.json(data[0]);
         }
     })
 })
@@ -81,7 +82,7 @@ server.get("/sale", function(req,res){
 })
 
 // GET ALL PRODUCTS HIGHEST/LOWEST COST
-server.get("/productlist/:order", function(req,res){
+server.get("/productlist/price/:order", function(req,res){
     // //var ascQuery = "CALL `OrderByHighestPrice`()";
     var sqlQuery = '';
     var order = req.params.order
@@ -139,20 +140,37 @@ server.get("/productlist/format/:format", function(req,res){
 
 });
 
-server.get("/productlist/available", function(req,res){
+server.get("/online", function(req,res){
 
-    sqlQuery = "CALL `GetAvailableProducts`()";
+    var sqlQuery = "CALL `GetAvailableProducts`()";
 
     db.query(sqlQuery, function(error,data){
         if(error){
             res.json(error);
         }
         if(data){
-            res.json(data);
+            res.json(data[0]);
         }
     })
 
-})
+});
+
+server.get("/new", function(req,res){
+
+    var sqlQuery = "CALL `GetNew`()";
+
+    db.query(sqlQuery, function(error,data){
+        if(error){
+            res.json(error);
+        }
+        if(data){
+            res.json(data[0]);
+        }
+    })
+
+});
+
+
 
 
 // ADD A NEW PRODUCT
@@ -239,3 +257,22 @@ server.put("/productlist/edit/:ePID", function(req,res){
         }
     })
 });
+
+
+//LOGIN
+
+server.post('/login', (req,res)=>{
+    let sqlQuery = "CALL `Login`(?, ?)";
+    let email = req.body.Email;
+    let password = req.body.Password;
+
+    db.query(sqlQuery, [email, password], (error,data)=>{
+
+        if(error){
+            res.json(error);
+        }
+        if(data){
+            res.json(data[0])
+        }
+    })
+})
